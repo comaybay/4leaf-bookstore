@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Box, Button, Center, Container, extendTheme, Heading, NativeBaseProvider, Text, theme } from "native-base";
+import React from "react";
 
 export default function App() {
+  const customTheme = extendTheme({
+    colors: {
+      // Add new color
+      primary: theme.colors.green
+    },
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={customTheme}>
+       <Center>
+        <Container  >
+          <Heading>
+            A component library for the
+            <Text color="emerald.500"> React Ecosystem</Text>
+          </Heading>
+          <Text mt="3" fontWeight="medium">
+            NativeBase is a simple, modular and accessible component library that
+            gives you building blocks to build you React applications.
+          </Text>
+          <Button>Bruh</Button>
+        </Container>
+      </Center>
+    </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
