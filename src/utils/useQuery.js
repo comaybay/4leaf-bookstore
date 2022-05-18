@@ -1,6 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { useCallback, useEffect, useState } from "react";
-import supabase from "./supabase"
+import {supabase} from "./supabaseClient"
 
 /**
  * @param {(supabase: SupabaseClient) => void} defaultQuery 
@@ -18,7 +18,6 @@ export default (defaultQuery, resultHandler = result => result.data) => {
       if (!query) {
         return;
       }
-      console.log(query)
 
       setIsLoading(true);
       const result = await query(supabase);

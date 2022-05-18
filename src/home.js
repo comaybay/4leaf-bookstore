@@ -1,21 +1,43 @@
 import { Box, Center, Heading, Image, NativeBaseProvider, Text, Icon, Input, Column, Row, ScrollView} from "native-base";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import useQuery from './utils/useQuery.js';
+import Book from "./components/book.js";
 
 export default function Home() {
-
-
-  const fakeBook = {
-    name: "The Master Identity Thief",
-    image_url: "https://covers.openlibrary.org/b/id/11669351-L.jpg",
-    description: "Testimony and Solutions of an Expert WitnessTestimony and Solutions of an Expert WitnessTestimony and Solutions of an Expert WitnessTestimony and Solutions of an Expert Witness",
-    rating: 4.5,
-    price: 15
+  const query = supabase => {
+    return supabase.from("random_book").select(`
+      isbn13, title, num_pages, price,
+      author(author_name),
+      book_language(language_name)
+      `).limit(6);
   }
+  const [{ isLoading, result }, setQuery] = useQuery(query);
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    if (result) {
+      setBooks(books => [...books, ...result]);
+      console.log([...books, ...result])
+    }
+  }, [result])
+
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
 
   return (
-      <ScrollView>
+      <ScrollView
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            setQuery(query);
+          }
+        }}
+        scrollEventThrottle={400}
+      >
         <Center>
           <Image source={require('../assets/home/bg.png')} alt="main background"
             width="100%" height="32"
@@ -49,25 +71,7 @@ export default function Home() {
             />
             <Heading color="primary.600" mb="3">Recommended for you</Heading>
             <Column space="3">
-              {
-                [fakeBook, fakeBook, fakeBook].map(b => (
-                  <Row>
-                    <Image size="lg" mr="2" source={{ uri: b.image_url }} />
-                    <Column flexShrink="1" width="100%" justifyContent="space-between">
-                      <Box>
-                        <Text bold>{b.name}</Text>
-                        <Text isTruncated noOfLines="2">{b.description}</Text>
-                      </Box>
-
-                      <Row mb="1" space="2" alignItems="center">
-                        <Text fontSize="lg" mr="2" color="primary.800">${b.price}</Text>
-                        <Icon as={<AntDesign name="star" size="32 " />} color="yellow.300" />
-                        <Text>{b.rating} / 5.0</Text>
-                      </Row>
-                    </Column>
-                  </Row>
-                ))
-              }
+            {books.map(b => <Book key={b.isbn13} book={b}/>) }
             </Column>
           </Box>
         </Center>
