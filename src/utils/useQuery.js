@@ -29,7 +29,7 @@ export default (defaultQuery, resultHandler = result => result.data) => {
       setResult(currentResultHandler(result));
       setIsLoading(false);
     })();
-  }, [query, currentResultHandler])
+  }, [query])
 
   return [
     {

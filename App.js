@@ -1,5 +1,6 @@
 import { extendTheme, theme, NativeBaseProvider } from "native-base";
 import Home from "./src/home";
+import 'react-native-url-polyfill/auto';
 
 export default function App() {
   const customTheme = extendTheme({
@@ -21,7 +22,7 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={customTheme}>
-      <Home/>
+        <Home/>
     </NativeBaseProvider>
   );
 }

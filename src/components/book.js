@@ -3,14 +3,14 @@ import { Box, Column, Row, Text, Image } from "native-base";
 export default function Book({ book: { title, isbn13, num_pages, price, author: authors, book_language: {language_name}}}) {
   const imageUrl = `https://covers.openlibrary.org/b/isbn/${isbn13}-M.jpg`
   return (
-    <Row>
+    <Row mx="4" mb="4">
       <Image size="lg" mr="2" source={{ uri: imageUrl }} alt={title}/>
       <Column flexShrink="1" width="100%" justifyContent="space-between">
         <Box>
           <Text isTruncated bold>{title}</Text>
           {/* <Text {b.description}</Text> */}
           <Row>
-            <Text fontSize="sm" isTruncated noOfLines="2" italic>{authors.map(a => a.author_name).join(", ")}</Text>
+            <Text fontSize="sm" isTruncated numberOfLines={2} italic>{authors.map(a => a.author_name).join(", ")}</Text>
           </Row>
 
           <Row>
