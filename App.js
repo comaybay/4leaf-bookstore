@@ -1,12 +1,15 @@
-import { extendTheme, theme, NativeBaseProvider } from "native-base";
+import { extendTheme, theme, NativeBaseProvider, Box } from "native-base";
 import Home from "./src/home";
 import 'react-native-url-polyfill/auto';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import BookDetails from "./src/book-details/book-detail";
 
+const Stack = createNativeStackNavigator(); 
 export default function App() {
   const customTheme = extendTheme({
     colors: {
-      // Add new color
-      primary: theme.colors.blue
+      // primary: theme.colors.blue
     },
     components: {
       Heading: {
@@ -21,8 +24,25 @@ export default function App() {
   });
 
   return (
-    <NativeBaseProvider theme={customTheme}>
-        <Home/>
-    </NativeBaseProvider>
+    <NavigationContainer theme={{colors: {background: '#fff'}}}>
+      <NativeBaseProvider theme={customTheme}>
+         <Box height="100vh">
+            <Stack.Navigator
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: '#3c96cf',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }}
+            >
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Book Details" component={BookDetails} />
+            </Stack.Navigator>
+          </Box>
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 }

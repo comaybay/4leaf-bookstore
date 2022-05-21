@@ -6,7 +6,7 @@ import useQuery from './utils/useQuery.js';
 import Book from "./components/book.js";
 import { FlatList } from "react-native";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const getBooks = (from, to) => supabase => {
     return supabase.from("random_book").select(`
       book_id, isbn13, title, num_pages, price,
@@ -46,9 +46,9 @@ export default function Home() {
   ]
 
   return (
-      <Center>
-        <Box width="100%" height="100vh">
-          <FlatList data={books} renderItem={(({ item }) => <Book key={item.book_id} book={item} />)}
+          <FlatList data={books} renderItem={(({ item }) => (
+            <Book key={item.book_id} onPress={() => navigation.navigate('Book Details', { isbn13: item.isbn13 })} book={item} />
+          ))}
             keyExtractor={(item) => item.book_id}
             onEndReached={loadMoreBooks}
             onEndReachedThreshold={1}
@@ -94,7 +94,5 @@ export default function Home() {
             <Text py="4" color="primary.700" fontSize="2xl" bold textAlign="center">Loading...</Text>
           )}
           />
-        </Box>
-      </Center>
   );
 }
