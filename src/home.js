@@ -1,9 +1,10 @@
-import { Box, Center, Heading, Image, NativeBaseProvider, Text, Icon, Input, Column, Row, ScrollView, FlatList} from "native-base";
+import { Box, Center, Heading, Image, Text, Icon, Input, Column, Row} from "native-base";
 import React, { useEffect, useState } from "react";
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import useQuery from './utils/useQuery.js';
 import Book from "./components/book.js";
+import { FlatList } from "react-native";
 
 export default function Home() {
   const getBooks = (from, to) => supabase => {
@@ -46,10 +47,11 @@ export default function Home() {
 
   return (
       <Center>
-        <Box width="100%">
+        <Box width="100%" height="100vh">
           <FlatList data={books} renderItem={(({ item }) => <Book key={item.book_id} book={item} />)}
             keyExtractor={(item) => item.book_id}
             onEndReached={loadMoreBooks}
+            onEndReachedThreshold={1}
             ListHeaderComponent={
               (
                 <Box key="1">
@@ -88,7 +90,9 @@ export default function Home() {
                 </Box>
               )
             }
-          ListEmptyComponent={(<Center><Text>Loading...</Text></Center>)}
+          ListFooterComponent={isLoading && (
+            <Text py="4" color="primary.700" fontSize="2xl" bold textAlign="center">Loading...</Text>
+          )}
           />
         </Box>
       </Center>
