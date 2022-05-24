@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Image, Text, Icon, VStack, HStack, Button } from "native-base";
+import { Box, Center, Heading, Image, Text, Icon, VStack, HStack, Button, ScrollView } from "native-base";
 import React, { useEffect, useState } from "react";
 import useQuery from '../utils/useQuery.js';
 import { SupabaseClient } from "@supabase/supabase-js";
@@ -17,14 +17,41 @@ export default function BookDetails({ navigation, route }) {
     .single();
 
   const [{ isLoading: isBookLoading, result: book }] = useQuery(getBook);
-  const [{ isLoading: isInfoLoading, result: info }] = useGoogleBooksAPI(route.params.isbn13);
+  const [{ isLoading: isInfoLoading, result: apiResult }] = useGoogleBooksAPI(route.params.isbn13);
+
+  const info = apiResult?.items?.[0].volumeInfo;
+  
+  const [bookInfoItems, setBookInfoItems] = useState([])
+
+  useEffect(() => {
+    if (!isBookLoading) {
+      setBookInfoItems(b => [
+        ...b,
+        { name: "Author", value: book.author.map(a => a.author_name).join(', ') },
+        { name: "Number of pages", value: book.num_pages },
+        { name: "Language", value: book.book_language.language_name },
+        { name: "ISBN", value: book.isbn13 },
+      ]);
+    } 
+  }, [isBookLoading])
+
+  useEffect(() => {
+    if (!isInfoLoading) {
+      setBookInfoItems(b => [
+        ...b,
+        { name: "Publisher", value: info.publisher },
+        { name: "Published date", value: info.publishedDate },
+        { name: "Categories", value: info.categories.join(', ') },
+      ])
+    }
+  }, [isInfoLoading])
 
   return (
-    <Box>
+    <ScrollView>
       {!isBookLoading && (
-        <>
+        <Box pb="8">
+          <Image backgroundColor="blueGray.600" width="100%" height="300" resizeMode="contain" alt="books" source={`https://covers.openlibrary.org/b/isbn/${book.isbn13}-L.jpg`} />
           <VStack width="100%" mt="4" px="4">
-            <Image width="100%" height="300" resizeMode="contain" alt="books" source={`https://covers.openlibrary.org/b/isbn/${book.isbn13}-L.jpg`} />
             <Heading mt="4" semibold>{book.title}</Heading>
             <HStack mt="1" justifyContent="space-between">
               <Text fontSize="xl" bold color="primary.800">${book.price}</Text>
@@ -36,12 +63,7 @@ export default function BookDetails({ navigation, route }) {
             </HStack>
             <Heading mt="4" mb="2" color="primary.800">Book Information</Heading>
             {
-              [
-                { name: "Author", value: book.author.map(a => a.author_name).join(', ') },
-                { name: "Number of pages", value: book.num_pages },
-                { name: "Language", value: book.book_language.language_name },
-                { name: "ISBN", value: book.isbn13 },
-              ].map((p, i) => (
+              bookInfoItems.map((p, i) => (
                 i % 2 == 0 ? (
                 <Box px="4" py="2" bgColor="gray.100">
                     <Text isTruncated><Text bold>{p.name}:</Text> {p.value}</Text>
@@ -53,14 +75,12 @@ export default function BookDetails({ navigation, route }) {
               ))
             }
             {
-              !isInfoLoading && info.items.length > 0 && (
-                <Text mt="4" semibold italic>{info.items[0].volumeInfo.description}</Text>
-              )
+              info && (<Text mt="4" semibold italic>{info.description}</Text>)
             }
 
           </VStack>
-        </>
+        </Box>
       )}
-    </Box>
+    </ScrollView>
   );
 }
