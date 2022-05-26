@@ -7,6 +7,7 @@ import BookDetails from "./src/book-details/book-detail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import UserAccount from "./src/user-account/user-account";
 
 const Stack = createNativeStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -63,7 +64,7 @@ function FooterNav() {
             else if (route.name === 'Cart') {
               return <Icon as={<MaterialCommunityIcons name={focused ? "cart" : "cart-outline"} />} color="white" size="sm" opacity={focused ? 1 : 0.5} />
             }
-            else if (route.name === 'Account') {
+            else if (route.name === 'User Account') {
               return <Icon as={<MaterialCommunityIcons name={focused ? "account" : "account-outline"} />} color="white" size="sm" opacity={focused ? 1 : 0.5} />
             }
           },
@@ -79,7 +80,7 @@ function FooterNav() {
         <Tab.Screen name="Home" component={HomeNav} />
         <Tab.Screen name="Search" component={Home} />
         <Tab.Screen name="Cart" component={Home} />
-        <Tab.Screen name="Account" component={Home} />
+        <Tab.Screen name="User Account" component={UserAccountNav} />
       </Tab.Navigator>
   )
 }
@@ -89,6 +90,14 @@ function HomeNav() {
     <Stack.Navigator screenOptions={headerTheme}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Book Details" component={BookDetails} />
+    </Stack.Navigator>
+  )
+}
+
+function UserAccountNav() {
+  return (
+    <Stack.Navigator screenOptions={headerTheme}>
+      <Stack.Screen name="User Account" component={UserAccount} />
     </Stack.Navigator>
   )
 }
