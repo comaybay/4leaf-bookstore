@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import UserAccount from "./src/user-account/user-account";
+import SignUp from "./src/user-account/components/SignUp.";
 
 const Stack = createNativeStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -98,6 +99,7 @@ function UserAccountNav() {
   return (
     <Stack.Navigator screenOptions={headerTheme}>
       <Stack.Screen name="User Account" component={UserAccount} />
+      <Stack.Screen name="Sign Up" component={SignUp} />
     </Stack.Navigator>
   )
 }
