@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import UserAccount from "./src/user-account/user-account";
 import SignUp from "./src/user-account/components/SignUp.";
+import Search from "./src/search/search";
 
 const Stack = createNativeStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -41,7 +42,7 @@ export default function App() {
   const [selected, setSelected] = useState(1);
   return (
     <NativeBaseProvider theme={customTheme}>
-      <Box flexGrow="1" flexShrink="0" height="100vh" overflow="hidden">
+      <Box flexGrow="1" flexShrink="0" overflow="hidden">
         <NavigationContainer theme={navContainerTheme}>
           <FooterNav/>
         </NavigationContainer>
@@ -79,17 +80,26 @@ function FooterNav() {
         })}
       >
         <Tab.Screen name="Home" component={HomeNav} />
-        <Tab.Screen name="Search" component={Home} />
+        <Tab.Screen name="Search" component={SearchNav} />
         <Tab.Screen name="Cart" component={Home} />
         <Tab.Screen name="User Account" component={UserAccountNav} />
       </Tab.Navigator>
   )
 }
 
+function SearchNav() {
+  return (
+    <Stack.Navigator screenOptions={headerTheme}>
+      <Stack.Screen name="Search " component={Search} />
+      <Stack.Screen name="Book Details" component={BookDetails} />
+    </Stack.Navigator>
+  )
+}
+
 function HomeNav() {
   return (
     <Stack.Navigator screenOptions={headerTheme}>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home " component={Home} />
       <Stack.Screen name="Book Details" component={BookDetails} />
     </Stack.Navigator>
   )
@@ -98,7 +108,7 @@ function HomeNav() {
 function UserAccountNav() {
   return (
     <Stack.Navigator screenOptions={headerTheme}>
-      <Stack.Screen name="User Account" component={UserAccount} />
+      <Stack.Screen name="User Account " component={UserAccount} />
       <Stack.Screen name="Sign Up" component={SignUp} />
     </Stack.Navigator>
   )

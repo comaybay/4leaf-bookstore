@@ -16,6 +16,7 @@ export default (defaultQuery, resultHandler = result => result.data) => {
   useEffect(() => {
     (async () => {
       if (!query) {
+        setIsLoading(false);
         return;
       }
 

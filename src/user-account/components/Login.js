@@ -56,10 +56,11 @@ export default function Login({onSuccess}) {
         <Button onPress={signIn} isLoading={loading}>Login</Button>
         <Button variant="link" onPress={() => navigation.navigate("Sign Up")}>Don't have an account? sign up!</Button>
         <HStack alignItems="center">
-          <Image width="32" height="32" src={require(`../../../assets/login.png`)} alt="bg" />
+          <Image width="32" height="32" source={require('../../../assets/login.png')} alt="bg" />
           <VStack flexShrink="1">
             <Text color="green.600" fontSize="xl">4Leaf Bookstore</Text>
-            <Text color="blueGray.600" fontSize="xl">Everything Bookworms Need!</Text>
+            <Text color="blueGray.600" fontSize="xl">Everything Bookworms</Text>
+            <Text color="blueGray.600" fontSize="xl">Need!</Text>
           </VStack>
         </HStack>
       </VStack>

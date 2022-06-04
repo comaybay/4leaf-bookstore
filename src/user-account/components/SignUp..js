@@ -79,10 +79,11 @@ export default function SignUp() {
           <Text color="red.600" fontSize="xs">{errorMsg}</Text>
           <Button onPress={signUp} isLoading={loading}>Sign up</Button>
           <HStack alignItems="center">
-            <Image width="32" height="32" src={require(`../../../assets/login.png`)} />
+            <Image width="32" height="32" source={require('../../../assets/login.png')} alt="bg"/>
             <VStack flexShrink="1">
               <Text color="green.600" fontSize="xl">4Leaf Bookstore</Text>
-              <Text color="blueGray.600" fontSize="xl">Everything Bookworms Need!</Text>
+              <Text color="blueGray.600" fontSize="xl">Everything Bookworms</Text>
+              <Text color="blueGray.600" fontSize="xl">Need!</Text>
             </VStack>
           </HStack>
         </VStack>

@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import useQuery from './utils/useQuery.js';
 import Book from "./components/book.js";
-import { FlatList } from "react-native";
+import { FlatList, Pressable } from "react-native";
 
 export default function Home({ navigation }) {
   const getBooks = (from, to) => supabase => {
@@ -59,9 +59,11 @@ export default function Home({ navigation }) {
                     width="100%" height="32"
                   />
                   <Box px="4" width="100%">
-                    <Input my="4" width="100%"
-                      placeholder="Search books"
-                      InputLeftElement={<Icon as={Feather} name="search" size={5} ml="2"></Icon>} />
+                    <Pressable onPress={() => navigation.navigate("Search")}>
+                      <Input my="4" width="100%" 
+                        placeholder="Search books"
+                        InputLeftElement={<Icon as={Feather} name="search" size={5} ml="2"></Icon>} />
+                    </Pressable>
                     <Column>
                       <Row key="1" space="3" mb="3" justifyContent="space-between">
                         {
