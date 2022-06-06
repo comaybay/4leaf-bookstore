@@ -26,7 +26,6 @@ export default function Home({ navigation }) {
 
   const loadMoreBooks = () => {
     if (!isLoading) {
-      console.log("loading more books...")
       setQuery(getBooks(current + 1, current + 12));
       setCurrent(c => c + 12)
     }

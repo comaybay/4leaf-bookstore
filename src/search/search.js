@@ -23,7 +23,6 @@ export default function Search({ navigation }) {
 
   const loadMoreBooks = () => {
     if (!isLoading) {
-      console.log("loading more books...")
       setPageNum(c => {
         setQuery(getBooks(input, c + 1), resultHandler);
         return c + 1

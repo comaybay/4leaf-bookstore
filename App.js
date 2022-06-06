@@ -10,6 +10,7 @@ import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-ic
 import UserAccount from "./src/user-account/user-account";
 import SignUp from "./src/user-account/components/SignUp.";
 import Search from "./src/search/search";
+import Checkout from "./src/cart/checkout";
 
 const Stack = createNativeStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -81,7 +82,7 @@ function FooterNav() {
       >
         <Tab.Screen name="Home" component={HomeNav} />
         <Tab.Screen name="Search" component={SearchNav} />
-        <Tab.Screen name="Cart" component={Home} />
+        <Tab.Screen name="Cart" component={Checkout} />
         <Tab.Screen name="User Account" component={UserAccountNav} />
       </Tab.Navigator>
   )

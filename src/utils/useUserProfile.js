@@ -8,18 +8,20 @@ export default () => {
   const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   useEffect(() => {
+    const user = supabase.auth.user();
     (async () => {
     if (!user) {
       setProfile(null);
-      setIsProfileLoading(false);
     }
     else {
       setIsProfileLoading(true);
-      const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+      const { data: profile } = await supabase.from("profile").select("*").eq("id", user.id).single();
       setProfile(profile);
-      setIsProfileLoading(false);
-    }})(); 
+      setIsProfileLoading(false); 
+      }
+    })(); 
   }, [reload]);
+
 
   return {
     isProfileLoading,
