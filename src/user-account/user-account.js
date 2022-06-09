@@ -6,7 +6,7 @@ import Login from "./components/Login";
 import useUserProfile from "../utils/useUserProfile"
 
 export default function UserAccount({ navigation }) {
-  const { user, isProfileLoading, profile, reloadUser } = useUserProfile();
+  const { user, isProfileLoading, profile } = useUserProfile();
 
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -14,8 +14,6 @@ export default function UserAccount({ navigation }) {
     if (error) {
       console.error(error.message);
     }
-    
-    reloadUser();
   }
 
   return (
@@ -23,7 +21,6 @@ export default function UserAccount({ navigation }) {
       {!isProfileLoading &&
         (!profile ? (
           <Login onSuccess={() => {
-            reloadUser();
             navigation.navigate("Home");
            }}
           />) 

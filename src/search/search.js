@@ -15,14 +15,22 @@ export default function Search({ navigation }) {
       `);
   }
 
-  const resultHandler = (result) => setBooks(books => [...books, ...result.data]); 
+  const resultHandler = result => {
+    if (result.data.length > 0) {
+      setBooks(books => [...books, ...result.data]);
+    }
+    else {
+      setOutOfPage(true);
+    }
+  } 
   const [pageNum, setPageNum] = useState(0);
-  const [{ isLoading, result }, setQuery] = useQuery(null);
+  const [outOfPage, setOutOfPage] = useState(false);
+  const [{ isLoading }, setQuery] = useQuery(null);
   const [books, setBooks] = useState([]);
   const [input, setInput] = useState("");
 
   const loadMoreBooks = () => {
-    if (!isLoading) {
+    if (!isLoading && !outOfPage) {
       setPageNum(c => {
         setQuery(getBooks(input, c + 1), resultHandler);
         return c + 1
@@ -33,7 +41,10 @@ export default function Search({ navigation }) {
   const handleSubmit = ({ nativeEvent }) => {
     setBooks([]);
     setPageNum(0);
-    setQuery(getBooks(nativeEvent.text.trim(), 0), resultHandler);
+    const text = nativeEvent.text.trim();
+    if (text !== "") {
+      setQuery(getBooks(nativeEvent.text.trim(), 0), resultHandler);
+    }
   }
 
   return (

@@ -2,34 +2,40 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 
 export default () => {
-  const user = supabase.auth.user();
-  const [reload, setReload] = useState(false);
+  const [user, setUser] = useState(supabase.auth.user());
   const [profile, setProfile] = useState(null);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   useEffect(() => {
-    const user = supabase.auth.user();
-    (async () => {
-    if (!user) {
+    setUser(supabase.auth.session()?.user ?? null);
+
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null);
       setProfile(null);
-    }
-    else {
+      setIsProfileLoading(true);
+    });
+
+    return () => listener.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (!user) {
+        setProfile(null);
+        setIsProfileLoading(false);
+        return;
+      }
+
       setIsProfileLoading(true);
       const { data: profile } = await supabase.from("profile").select("*").eq("id", user.id).single();
       setProfile(profile);
-      setIsProfileLoading(false); 
-      }
-    })(); 
-  }, [reload]);
-
+      setIsProfileLoading(false);
+    })();
+  }, [user]);
 
   return {
     isProfileLoading,
     user,
     profile,
-    reloadUser() {
-      setIsProfileLoading(true);
-      setReload(r => !r);
-    }
   }
 }

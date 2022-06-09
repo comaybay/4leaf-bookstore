@@ -1,9 +1,10 @@
-import { HStack, Input, ScrollView, VStack, Text, Heading, Center, Radio, Image, Button } from "native-base";
+import { HStack, Input, ScrollView, VStack, Text, Heading, Center, Radio, Image, Button, TextArea } from "native-base";
 import { useEffect, useState } from "react";
 import useQuery from "../utils/useQuery";
 import useUserProfile from "../utils/useUserProfile";
 import { useIsFocused } from '@react-navigation/native'
 import { supabase } from "../utils/supabaseClient";
+import { Pressable } from "react-native";
 
 export default function Checkout({navigation}) {
   const { isProfileLoading, profile, user } = useUserProfile();
@@ -21,10 +22,10 @@ export default function Checkout({navigation}) {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && profile) {
       setQuery(query);
     }
-  }, [isFocused]);
+  }, [isFocused, profile]);
 
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
@@ -71,27 +72,36 @@ export default function Checkout({navigation}) {
   }
 
   return (
-    <ScrollView p="4">
-      {!isProfileLoading && (
-        <>
-          <Heading bgColor="primary.600" my="4" fontSize="lg">SHIPPING ADDRESS:</Heading>
-          <VStack width="270" space="2" alignItems="space-between">
-            <HStack alignItems="center" space="2" justifyContent="space-between">
-              <Text fontWeight="semibold">Name:</Text>
-              <Input value={username} onChangeText={text => setUsername(text)} />
-            </HStack>
-            <HStack alignItems="center" space="2" justifyContent="space-between">
-              <Text fontWeight="semibold">Phone number:</Text>
-              <Input value={phone} onChangeText={text => setPhone(text.trim())} />
-            </HStack>
-            <HStack alignItems="center" space="2" justifyContent="space-between">
-              <Text fontWeight="semibold">Email:</Text>
-              <Input value={email} onChangeText={text => setEmail(text.trim())} />
-            </HStack>
-            <HStack alignItems="center" space="2" justifyContent="space-between">
-              <Text fontWeight="semibold">Address:</Text>
-              <Input value={address} onChangeText={text => setAddress(text)} />
-            </HStack>
+    <ScrollView p="4" bgColor={profile ? "white" : "gray.100"}>
+      {!profile || !cart && (
+        <Text color="primary.600" my="4" fontSize="lg">Loading...</Text>
+      )}
+      {!isProfileLoading && !profile ? (
+        <Center mt="40">
+          <Pressable onPress={() => navigation.navigate("User Account")}>
+            <Heading fontSize="xl" borderWidth="2" borderColor="primary.700" rounded="lg" py="2" px="8" color="primary.700">Sign in to use this feature</Heading>
+          </Pressable>
+        </Center>
+      ) : (
+          <>
+            <Heading my="4" fontSize="lg">SHIPPING ADDRESS:</Heading>
+            <VStack width="100%" space="2" alignItems="space-between">
+              <HStack alignItems="center" space="2" justifyContent="space-between">
+                <Text  width="100" fontWeight="semibold">Name:</Text>
+                <Input flexGrow="1" value={username} onChangeText={text => setUsername(text)} />
+              </HStack>
+              <HStack alignItems="center" space="2" justifyContent="space-between">
+                <Text width="100" fontWeight="semibold">Phone number:</Text>
+                <Input flexGrow="1" value={phone} onChangeText={text => setPhone(text.trim())} />
+              </HStack>
+              <HStack alignItems="center" space="2" justifyContent="space-between">
+                <Text width="100" fontWeight="semibold">Email:</Text>
+                <Input flexGrow="1" value={email} onChangeText={text => setEmail(text.trim())} />
+              </HStack>
+              <HStack alignItems="start" space="2" justifyContent="space-between">
+                <Text width="100" mt="1" fontWeight="semibold">Address:</Text>
+                <TextArea flexGrow="1" value={address} onChangeText={text => setAddress(text)} />
+              </HStack>
             {
               missingInfo && (
                 <Text color="red.500">*Điền đầy đủ thông tin để tiếp tục</Text>
@@ -115,7 +125,7 @@ export default function Checkout({navigation}) {
             }
           </Radio.Group>
           <Heading my="4" fontSize="lg" bgColor="primary.600">CHECK ORDER:</Heading>
-            {!isCartLoading &&
+            {!isCartLoading && cart &&
             <>
               {
                 cart.map(item => (

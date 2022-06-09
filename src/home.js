@@ -14,20 +14,27 @@ export default function Home({ navigation }) {
       book_language(language_name)
       `).range(from, to);
   }
+
+  const handleBookResult = result => {
+    if (result.data.length > 0) {
+      setBooks(books => [...books, ...result.data]);
+    }
+    else {
+      setOutOfPage(true);
+    }
+  }
+
   const [current, setCurrent] = useState(12);
-  const [{ isLoading, result }, setQuery] = useQuery(getBooks(0, current));
+  const [outOfPage, setOutOfPage] = useState(false);
+  const [{ isLoading, result }, setQuery] = useQuery(getBooks(0, current), handleBookResult);
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setBooks(books => [...books, ...result]);
-    }
-  }, [isLoading])
+
 
   const loadMoreBooks = () => {
-    if (!isLoading) {
-      setQuery(getBooks(current + 1, current + 12));
-      setCurrent(c => c + 12)
+    if (!isLoading && !outOfPage) {
+      setQuery(getBooks(current + 1, current + 12), handleBookResult);
+      setCurrent(c => c + 12);
     }
   }
 
