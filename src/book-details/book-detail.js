@@ -87,16 +87,17 @@ export default function BookDetails({ navigation, route }) {
     <ScrollView>
       {!isBookLoading && (
         <Box pb="8">
-          <Image backgroundColor="blueGray.600" width="100%" height="300" resizeMode="contain" alt="books" source={`https://covers.openlibrary.org/b/isbn/${book.isbn13}-L.jpg`} />
+          <Image backgroundColor="blueGray.600" width="100%" height="300" resizeMode="contain" alt="books" 
+          source={{ uri: `https://covers.openlibrary.org/b/isbn/${book.isbn13}-L.jpg` }} />
           <VStack width="100%" mt="4" px="4">
             <Heading mt="4" semibold>{book.title}</Heading>
             <HStack mt="1" justifyContent="space-between">
               <Text fontSize="xl" bold color="primary.800">${book.price}</Text>
               <VStack>
-                <HStack justifyContent="end" alignItems="center">
+                <HStack justifyContent="flex-end" alignItems="center">
                   <Text fontSize="md">Quantity: </Text>
                   <Button variant="outline" onPress={() => setQuantity(q => Math.max(1, q - 1))}><Text fontWeight="bold">-</Text></Button>
-                  <Input width="12" isDisabled fontSize="lg" value={quantity}/>
+                  <Input width="12" isDisabled fontSize="lg" value={`${quantity}`}/>
                   <Button variant="outline" onPress={() => setQuantity(q => Math.min(99, q + 1))}><Text fontWeight="bold">+</Text></Button>
                 </HStack>
                 <HStack mt="2" space="2">

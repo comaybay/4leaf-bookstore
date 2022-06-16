@@ -99,7 +99,7 @@ export default function Home({ navigation }) {
               )
             }
           ListFooterComponent={isLoading && (
-            <Text py="4" color="primary.700" fontSize="2xl" bold textAlign="center">Loading...</Text>
+            <Text mb="10" py="4" color="primary.700" fontSize="2xl" bold textAlign="center">Loading...</Text>
           )}
           />
   );

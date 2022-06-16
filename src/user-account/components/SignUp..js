@@ -40,7 +40,7 @@ export default function SignUp() {
       return;
     }
 
-    await supabase.from("profiles").insert([{ id: user.id, name: username, address, phone}]);
+    await supabase.from("profile").insert([{ id: user.id, name: username, address, phone}]);
     setLoading(false);
 
     //go back to user account.
@@ -57,27 +57,27 @@ export default function SignUp() {
           Sign up
         </Heading>
         <VStack mt="4" space="4">
-          <Input value={email} onChangeText={text => setEmail(text)} placeholder="Email" InputLeftElement={
+          <Input mx="1" value={email} onChangeText={text => setEmail(text)} placeholder="Email" InputLeftElement={
             <Icon as={<MaterialIcons name="email" />} ml="2"></Icon>
           } /> 
-          <Input value={username} onChangeText={text => setUsername(text)} placeholder="Username" InputLeftElement={
+          <Input mx="1" value={username} onChangeText={text => setUsername(text)} placeholder="Username" InputLeftElement={
             <Icon as={<MaterialIcons name="person" />} ml="2"></Icon>
           } />
-          <Input type="password" value={password} onChangeText={text => setPassword(text)} placeholder="Password" InputLeftElement={
+          <Input mx="1" type="password" value={password} onChangeText={text => setPassword(text)} placeholder="Password" InputLeftElement={
             <Icon as={<FontAwesome name="lock" />} ml="2"></Icon>
           } />
-          <Input type="password" value={confirmPassword} onChangeText={text => setConfirmPassword(text)} placeholder="Confirm Password" InputLeftElement={
+          <Input mx="1" type="password" value={confirmPassword} onChangeText={text => setConfirmPassword(text)} placeholder="Confirm Password" InputLeftElement={
             <Icon as={<FontAwesome name="lock" />} ml="2"></Icon>
           } />
-          <Input value={phone} onChangeText={text => setPhone(text.trim())} placeholder="Phone number (Not required)" InputLeftElement={
-            <Icon as={<Ionicons name="md-location-sharp" />} ml="2"></Icon>
-          } />
-          <Input value={address} onChangeText={text => setAddress(text)} placeholder="Address (Not required)" InputLeftElement={
+          <Input mx="1" value={phone} onChangeText={text => setPhone(text.trim())} placeholder="Phone number (Not required)" InputLeftElement={
             <Icon as={<MaterialIcons name="phone" />} ml="2"></Icon>
+          } />
+          <Input mx="1" value={address} onChangeText={text => setAddress(text)} placeholder="Address (Not required)" InputLeftElement={
+            <Icon as={<Ionicons name="md-location-sharp" />} ml="2"></Icon>
           } />
           
           <Text color="red.600" fontSize="xs">{errorMsg}</Text>
-          <Button onPress={signUp} isLoading={loading}>Sign up</Button>
+          <Button mx="1" onPress={signUp} isLoading={loading}>Sign up</Button>
           <HStack alignItems="center">
             <Image width="32" height="32" source={require('../../../assets/login.png')} alt="bg"/>
             <VStack flexShrink="1">

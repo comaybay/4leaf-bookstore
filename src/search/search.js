@@ -48,7 +48,7 @@ export default function Search({ navigation }) {
   }
 
   return (
-    <>
+    <Box mb="20">
        <Box key="1">
             <Box px="4" width="100%">
               <Input my="4" width="100%"
@@ -67,6 +67,6 @@ export default function Search({ navigation }) {
           <Text py="4" color="primary.700" fontSize="2xl" bold textAlign="center">Loading...</Text>
         )}
       />
-    </>
+    </Box>
   );
 }

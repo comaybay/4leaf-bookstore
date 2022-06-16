@@ -42,10 +42,10 @@ export default function Login({onSuccess}) {
         Sign in
       </Heading>
       <VStack mt="4" space="4">
-        <Input value={email} onChangeText={text => setEmail(text)} placeholder="Email" InputLeftElement={
+        <Input mx="1" value={email} onChangeText={text => setEmail(text)} placeholder="Email" InputLeftElement={
           <Icon as={<MaterialIcons name="email" />} ml="2"></Icon>
         } />
-        <Input type={showPassword ? "text" : "password"} value={password} onChangeText={text => setPassword(text)} placeholder="Password" InputLeftElement={
+        <Input mx="1" type={showPassword ? "text" : "password"} value={password} onChangeText={text => setPassword(text)} placeholder="Password" InputLeftElement={
           <Icon as={<FontAwesome name="lock" />} ml="2"></Icon>
         } InputRightElement={
           <Pressable onPress={() => setShowPassword(s => !s)}>
@@ -53,7 +53,7 @@ export default function Login({onSuccess}) {
           </Pressable>
         } />
         <Text color="red.600" fontSize="xs">{errorMsg}</Text>
-        <Button onPress={signIn} isLoading={loading}>Login</Button>
+        <Button mx="1" onPress={signIn} isLoading={loading}>Login</Button>
         <Button variant="link" onPress={() => navigation.navigate("Sign Up")}>Don't have an account? sign up!</Button>
         <HStack alignItems="center">
           <Image width="32" height="32" source={require('../../../assets/login.png')} alt="bg" />

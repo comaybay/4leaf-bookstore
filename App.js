@@ -11,6 +11,12 @@ import UserAccount from "./src/user-account/user-account";
 import SignUp from "./src/user-account/components/SignUp.";
 import Search from "./src/search/search";
 import Checkout from "./src/cart/checkout";
+import MyOrder from "./src/user-account/components/my-order";
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
+
 
 const Stack = createNativeStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -111,6 +117,7 @@ function UserAccountNav() {
     <Stack.Navigator screenOptions={headerTheme}>
       <Stack.Screen name="User Account " component={UserAccount} />
       <Stack.Screen name="Sign Up" component={SignUp} />
+      <Stack.Screen name="My Order" component={MyOrder} />
     </Stack.Navigator>
   )
 }

@@ -48,7 +48,7 @@ export default function UserAccount({ navigation }) {
                 <Text bold>Phone number:</Text>
                 <Text>{profile.phone || "None"}</Text>
               </HStack>
-              <Button mt="3" width="100%" leftIcon={<Icon as={<MaterialCommunityIcons name="clipboard-list-outline" />} size="6" color="white"></Icon>}>
+              <Button onPress={() => navigation.navigate("My Order")} mt="3" width="100%" leftIcon={<Icon as={<MaterialCommunityIcons name="clipboard-list-outline" />} size="6" color="white"></Icon>}>
                 <Text bold color="white">My order</Text>
               </Button>
               <Button width="100%" leftIcon={<Icon as={<MaterialIcons name="logout" />} size="6" color="white"></Icon>} colorScheme="red"

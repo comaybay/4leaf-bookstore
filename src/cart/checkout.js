@@ -1,4 +1,4 @@
-import { HStack, Input, ScrollView, VStack, Text, Heading, Center, Radio, Image, Button, TextArea } from "native-base";
+import { HStack, Input, ScrollView, VStack, Text, Heading, Center, Radio, Image, Button, TextArea, Box } from "native-base";
 import { useEffect, useState } from "react";
 import useQuery from "../utils/useQuery";
 import useUserProfile from "../utils/useUserProfile";
@@ -12,7 +12,7 @@ export default function Checkout({navigation}) {
   const query = supabase => supabase.from("cart_item").select(`
     id, quantity,
     book(book_id, isbn13, title, price, author(author_name))
-  `);
+  `).eq("user_id", user.id);
 
   const [{ isLoading: isCartLoading, result: cart }, setQuery] = useQuery(null);
   const [{ isLoading: isShippingMethodsLoading, result: shippingMethods }] = useQuery(
@@ -73,6 +73,7 @@ export default function Checkout({navigation}) {
 
   return (
     <ScrollView p="4" bgColor={profile ? "white" : "gray.100"}>
+      <Box safeArea mb="10">
       {!profile || !cart && (
         <Text color="primary.600" my="4" fontSize="lg">Loading...</Text>
       )}
@@ -85,7 +86,7 @@ export default function Checkout({navigation}) {
       ) : (
           <>
             <Heading my="4" fontSize="lg">SHIPPING ADDRESS:</Heading>
-            <VStack width="100%" space="2" alignItems="space-between">
+            <VStack width="100%" space="2">
               <HStack alignItems="center" space="2" justifyContent="space-between">
                 <Text  width="100" fontWeight="semibold">Name:</Text>
                 <Input flexGrow="1" value={username} onChangeText={text => setUsername(text)} />
@@ -98,7 +99,7 @@ export default function Checkout({navigation}) {
                 <Text width="100" fontWeight="semibold">Email:</Text>
                 <Input flexGrow="1" value={email} onChangeText={text => setEmail(text.trim())} />
               </HStack>
-              <HStack alignItems="start" space="2" justifyContent="space-between">
+              <HStack alignItems="flex-start" space="2" justifyContent="space-between">
                 <Text width="100" mt="1" fontWeight="semibold">Address:</Text>
                 <TextArea flexGrow="1" value={address} onChangeText={text => setAddress(text)} />
               </HStack>
@@ -132,7 +133,7 @@ export default function Checkout({navigation}) {
                   <HStack key={item.id} mb="4" width="100%">
                     <Image size="lg" mr="2" source={{ uri: `https://covers.openlibrary.org/b/isbn/${item.book.isbn13}-M.jpg` }} alt={item.book.title} />
                     <VStack flexGrow="1" flexShrink="1">
-                      <Text isTruncated grow="0" width="100%" numberOfLines="2" bold>{item.book.title}</Text>
+                      <Text isTruncated flexGrow="0" width="100%" numberOfLines={2} bold>{item.book.title}</Text>
                       <Text isTruncated mr="2">{item.book.author.map(a => a.author_name).join(", ")}</Text>
                       <HStack alignItems="center" justifyContent="space-between">
                         <Text fontSize="lg" mr="2" color="primary.800">${item.book.price}</Text>
@@ -152,6 +153,7 @@ export default function Checkout({navigation}) {
             >Confirm Order</Button>
           </>
         )}
+      </Box>
     </ScrollView>
   )
 }
